@@ -1,0 +1,58 @@
+openapi: 3.0.0
+info:
+  title: Vinomofo Github Pull Request
+  description: Open pull requests and reviews for Vinomofo repositories.
+  version: 1
+paths:
+  '/vm-github-pull-requests/{repositoryName}':
+    get:
+      summary: Returns info related to the repository's pull requests
+      parameters:
+        - in: path
+          name: repositoryName
+          type: string
+          required: true
+          description: Name of the repository in the Vinomofo organization
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 3
+                maxItems: 7
+                items:
+                  type: object
+                  properties:
+                    pullRequestId:
+                      type: string
+                      example: "2376"
+                    pullRequestName:
+                      type: string
+                      example: "Fix broken checkout analytics events"
+                    pullRequestURL:
+                      type: string
+                      example: "https://github.com/vinomofo/vinomofo/pull/2376"
+                    repositoryName:
+                      type: string
+                      example: "vino-delivery"
+                    repositoryURL:
+                      type: string
+                      example: "https://github.com/vinomofo/vino-delivery/"
+                    dateOpened:
+                      type: string
+                      format: date
+                      example: "2020-07-20"
+                    reviews:
+                      type: array
+                      minItems: 0
+                      maxItems: 5
+                      items:
+                        type: object
+                        properties:
+                          reviewerName:
+                            type: string
+                            example: "Kalimaha"
+                          reviewerURL:
+                            type: string
+                            example: "https://github.com/Kalimaha"

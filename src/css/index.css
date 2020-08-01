@@ -1,0 +1,15 @@
+body {
+  background-color: #000000;
+}
+
+hr {
+  border-top: 0.1rem solid #ffffff;
+}
+
+.bg-info {
+  background-color: #8A6BAF!important;
+}
+
+.bg-dark {
+  background-color: #242A2E!important;
+}
