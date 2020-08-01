@@ -14,6 +14,12 @@ type PullRequest struct {
 	Number    int
 	Title     string
 	CreatedAt time.Time
+	Reviews 	[]Review
+}
+
+type Review struct {
+	ReviewerURL 	string
+	ReviewerName	string
 }
 
 func PullRequests(repositoryName string) (pullRequests []PullRequest) {
@@ -31,15 +37,15 @@ func PullRequests(repositoryName string) (pullRequests []PullRequest) {
 		pullRequest := buildPullRequest(*value)
 		pullRequests = append(pullRequests, pullRequest)
 	}
-	
+
 	return pullRequests
 }
 
 func githubClient() (client *github.Client) {
-	githubToken 	:= os.Getenv("GITHUB_TOKEN")
-	tokenService	:= oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken})
-	tokenClient 	:= oauth2.NewClient(context.Background(), tokenService)
-	
+	githubToken := os.Getenv("GITHUB_TOKEN")
+	tokenService := oauth2.StaticTokenSource(&oauth2.Token{AccessToken: githubToken})
+	tokenClient := oauth2.NewClient(context.Background(), tokenService)
+
 	return github.NewClient(tokenClient)
 }
 
@@ -49,5 +55,6 @@ func buildPullRequest(githubPullRequest github.PullRequest) PullRequest {
 		Number:    *githubPullRequest.Number,
 		Title:     *githubPullRequest.Title,
 		CreatedAt: *githubPullRequest.CreatedAt,
+		Reviews: 	 make([]Review, 0),
 	}
 }
