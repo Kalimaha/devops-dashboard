@@ -15,3 +15,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 func main() {
 	lambda.Start(handler)
 }
+
+func Sum(a int, b int) int {
+	return a + b
+}
