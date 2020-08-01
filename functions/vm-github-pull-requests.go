@@ -7,7 +7,9 @@ import (
 )
 
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-	pullRequests := PullRequests("vinomofo")
+	repositoryName, _ := request.QueryStringParameters["repositoryName"]
+
+	pullRequests := PullRequests(repositoryName)
 	body, _ := json.Marshal(pullRequests)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,

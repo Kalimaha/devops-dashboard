@@ -1,28 +1,34 @@
 const buildDevOpsDashboard = () => {
-  // var url = "https://geobricks.stoplight.io/mocks/geobricks/github-pulls/636798/vm-github-pull-requests/repositoryName"
-  var url = "https://devops-dashboard.netlify.app/.netlify/functions/vm-github-pull-requests"
+  const REPOSITORY_NAMES = ["vinomofo", "vino-delivery", "vino-subscription", "vino-warehouse"]
+  for (var i = 0; i < REPOSITORY_NAMES.length; i++) {
+    fetchPullRequests(REPOSITORY_NAMES[i])
+  }
+}
+
+const fetchPullRequests = (repositoryName) => {
+  var url = `https://devops-dashboard.netlify.app/.netlify/functions/vm-github-pull-requests?repositoryName=${repositoryName}`
   $.ajax({
     url: url
   }).then(function(data) {
-    console.log("data", data)
-    console.log("data", data.length)
-    // var json = JSON.parse(data)
-    // console.log("json", json)
-    var template = $("#pull-request-template").html()
-    for (var i = 0; i < data.length; i++) {
-      var values = data2template(data[i])
-      var html = Mustache.render(template, values)
-      $("#pull-requests").append(html)
+    if (data != null) {
+      var template = $("#pull-request-template").html()
+      for (var i = 0; i < data.length; i++) {
+        var values = data2template(data[i], repositoryName)
+        if (values.dateOpened < 30) {
+          var html = Mustache.render(template, values)
+          $("#pull-requests").append(html)
+        }
+      }
     }
   })
 }
 
-const data2template = (data) => ({ 
+const data2template = (data, repositoryName) => ({ 
   pullRequestName: data.Title, 
   pullRequestURL: data.Url, 
   pullRequestId: data.Number,
-  repositoryName: "vinomofo", 
-  repositoryURL: "https://github.com/vinomofo/vinomofo/",
+  repositoryName: repositoryName,
+  repositoryURL: `https://github.com/vinomofo/${repositoryName}/`,
   dateOpened: countDays(data.CreatedAt),
   message: buildMessage(data.Reviews),
 })

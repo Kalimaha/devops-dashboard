@@ -51,7 +51,7 @@ func githubClient() (client *github.Client) {
 
 func buildPullRequest(githubPullRequest github.PullRequest) PullRequest {
 	return PullRequest{
-		Url:       *githubPullRequest.URL,
+		Url:       *githubPullRequest.HTMLURL,
 		Number:    *githubPullRequest.Number,
 		Title:     *githubPullRequest.Title,
 		CreatedAt: *githubPullRequest.CreatedAt,
