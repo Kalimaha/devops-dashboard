@@ -1,9 +1,12 @@
 body {
   background-color: #000000;
+  background-image: url("../../images/tile2.jpg");
+  background-repeat: repeat-xy;
+  background-size: 25rem;
 }
 
 hr {
-  border-top: 0.1rem solid #ffffff;
+  border-top: 0.1rem solid #000;
 }
 
 .bg-info {
