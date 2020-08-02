@@ -14,12 +14,14 @@ type PullRequest struct {
 	Number    int
 	Title     string
 	CreatedAt time.Time
-	Reviews 	[]Review
+	Reviews   []Review
 }
 
 type Review struct {
-	ReviewerURL 	string
-	ReviewerName	string
+	ReviewerURL  string
+	ReviewerName string
+	State				 string
+	SubmittedAt  time.Time
 }
 
 func PullRequests(repositoryName string) (pullRequests []PullRequest) {
@@ -34,11 +36,30 @@ func PullRequests(repositoryName string) (pullRequests []PullRequest) {
 	}
 
 	for _, value := range githubPullRequests {
-		pullRequest := buildPullRequest(*value)
+		reviews := fetchReviews(client, repositoryName, *value.Number)
+		pullRequest := buildPullRequest(*value, reviews)
 		pullRequests = append(pullRequests, pullRequest)
 	}
 
 	return pullRequests
+}
+
+func fetchReviews(client *github.Client, repositoryName string, pullRequestNumber int) []Review {
+	reviews := make([]Review, 0)
+	opt := &github.ListOptions{PerPage: 10}
+	githubReviews, _, err := client.PullRequests.ListReviews(context.Background(), "vinomofo", repositoryName, pullRequestNumber, opt)
+
+	if err != nil {
+		fmt.Printf("Problem in getting reviews: %v", err)
+		os.Exit(1)
+	}
+	
+	for _, githubReview := range githubReviews {
+		review := buildReview(*githubReview)
+		reviews = append(reviews, review)
+	}
+
+	return reviews
 }
 
 func githubClient() (client *github.Client) {
@@ -49,12 +70,21 @@ func githubClient() (client *github.Client) {
 	return github.NewClient(tokenClient)
 }
 
-func buildPullRequest(githubPullRequest github.PullRequest) PullRequest {
+func buildPullRequest(githubPullRequest github.PullRequest, reviews []Review) PullRequest {
 	return PullRequest{
 		Url:       *githubPullRequest.HTMLURL,
 		Number:    *githubPullRequest.Number,
 		Title:     *githubPullRequest.Title,
 		CreatedAt: *githubPullRequest.CreatedAt,
-		Reviews: 	 make([]Review, 0),
+		Reviews:   reviews,
+	}
+}
+
+func buildReview(githubPullRequestReview github.PullRequestReview) Review {
+	return Review{
+		ReviewerURL:  *githubPullRequestReview.User.HTMLURL,
+		ReviewerName: *githubPullRequestReview.User.Login,
+		State: 				*githubPullRequestReview.State,
+		SubmittedAt:  *githubPullRequestReview.SubmittedAt,
 	}
 }
