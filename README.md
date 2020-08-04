@@ -1,4 +1,6 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d686cd09-ec33-4d57-84b4-87d24fabca90/deploy-status)](https://app.netlify.com/sites/devops-dashboard/deploys)
+[![Maintainability](https://api.codeclimate.com/v1/badges/7ef9e694f2ed88234f1e/maintainability)](https://codeclimate.com/github/Kalimaha/devops-dashboard/maintainability)
+[![Test Coverage](https://api.codeclimate.com/v1/badges/7ef9e694f2ed88234f1e/test_coverage)](https://codeclimate.com/github/Kalimaha/devops-dashboard/test_coverage)
 
 # Devops Dashboard
 
