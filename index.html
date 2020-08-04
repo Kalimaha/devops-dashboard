@@ -26,9 +26,9 @@
           {{{ message }}}
         </div>
         <div class="card-footer">
-          <a class="float-left text-dark" href="{{ authorURL }}">
-            PR by {{ authorName }}
-          </a>
+          <span class="float-left">
+            Authored by <span class="text-success"><a href="{{ authorURL }}">{{ authorName }}</a></span>
+          </span>
           <a class="float-right text-dark" href="{{ repositoryURL }}">
             vinomofo/{{ repositoryName }}
           </a>
