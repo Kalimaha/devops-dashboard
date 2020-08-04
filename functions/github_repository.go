@@ -10,17 +10,19 @@ import (
 )
 
 type PullRequest struct {
-	Url       string
-	Number    int
-	Title     string
-	CreatedAt time.Time
-	Reviews   []Review
+	Url        string
+	Number     int
+	Title      string
+	CreatedAt  time.Time
+	Reviews    []Review
+	AuthorName string
+	AuthorURL  string
 }
 
 type Review struct {
 	ReviewerURL  string
 	ReviewerName string
-	State				 string
+	State        string
 	SubmittedAt  time.Time
 }
 
@@ -53,7 +55,7 @@ func fetchReviews(client *github.Client, repositoryName string, pullRequestNumbe
 		fmt.Printf("Problem in getting reviews: %v", err)
 		os.Exit(1)
 	}
-	
+
 	for _, githubReview := range githubReviews {
 		review := buildReview(*githubReview)
 		reviews = append(reviews, review)
@@ -72,11 +74,13 @@ func githubClient() (client *github.Client) {
 
 func buildPullRequest(githubPullRequest github.PullRequest, reviews []Review) PullRequest {
 	return PullRequest{
-		Url:       *githubPullRequest.HTMLURL,
-		Number:    *githubPullRequest.Number,
-		Title:     *githubPullRequest.Title,
-		CreatedAt: *githubPullRequest.CreatedAt,
-		Reviews:   reviews,
+		Url:        *githubPullRequest.HTMLURL,
+		Number:     *githubPullRequest.Number,
+		Title:      *githubPullRequest.Title,
+		CreatedAt:  *githubPullRequest.CreatedAt,
+		Reviews:    reviews,
+		AuthorName: *githubPullRequest.User.Login,
+		AuthorURL:  *githubPullRequest.User.Login,
 	}
 }
 
@@ -84,7 +88,7 @@ func buildReview(githubPullRequestReview github.PullRequestReview) Review {
 	return Review{
 		ReviewerURL:  *githubPullRequestReview.User.HTMLURL,
 		ReviewerName: *githubPullRequestReview.User.Login,
-		State: 				*githubPullRequestReview.State,
+		State:        *githubPullRequestReview.State,
 		SubmittedAt:  *githubPullRequestReview.SubmittedAt,
 	}
 }

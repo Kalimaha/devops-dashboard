@@ -2,9 +2,9 @@ const buildDevOpsDashboard = () => {
   const REPOSITORY_NAMES = [
     "vinomofo",
     "vino-delivery",
+    "vino-delivery-x-ebay",
     "vino-subscription",
     "vino-warehouse",
-    "vino-delivery-x-ebay",
     "smokescreen"
   ]
 
@@ -40,6 +40,8 @@ const data2template = (data, repositoryName) => ({
   repositoryURL: `https://github.com/vinomofo/${repositoryName}/`,
   dateOpened: countDays(data.CreatedAt),
   message: buildMessage(data.Reviews),
+  authorName: data.AuthorName,
+  authorURL: data.AuthorURL,
 })
 
 const buildMessage = (reviews) => {
