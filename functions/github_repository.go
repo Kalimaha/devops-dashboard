@@ -14,6 +14,7 @@ type PullRequest struct {
 	Number     int
 	Title      string
 	CreatedAt  time.Time
+	UpdatedAt  time.Time
 	Reviews    []Review
 	AuthorName string
 	AuthorURL  string
@@ -77,7 +78,8 @@ func buildPullRequest(githubPullRequest github.PullRequest, reviews []Review) Pu
 		Url:        *githubPullRequest.HTMLURL,
 		Number:     *githubPullRequest.Number,
 		Title:      *githubPullRequest.Title,
-		CreatedAt:  *githubPullRequest.UpdatedAt,
+		CreatedAt:  *githubPullRequest.CreatedAt,
+		UpdatedAt:  *githubPullRequest.UpdatedAt,
 		Reviews:    reviews,
 		AuthorName: *githubPullRequest.User.Login,
 		AuthorURL:  *githubPullRequest.User.Login,

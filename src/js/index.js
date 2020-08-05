@@ -39,6 +39,7 @@ const data2template = (data, repositoryName) => ({
   repositoryName: repositoryName,
   repositoryURL: `https://github.com/vinomofo/${repositoryName}/`,
   dateOpened: countDays(data.CreatedAt),
+  dateUpdated: countDays(data.UpdatedAt),
   message: buildMessage(data.Reviews),
   authorName: data.AuthorName,
   authorURL: data.AuthorURL,
