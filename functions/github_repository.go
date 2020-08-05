@@ -77,7 +77,7 @@ func buildPullRequest(githubPullRequest github.PullRequest, reviews []Review) Pu
 		Url:        *githubPullRequest.HTMLURL,
 		Number:     *githubPullRequest.Number,
 		Title:      *githubPullRequest.Title,
-		CreatedAt:  *githubPullRequest.CreatedAt,
+		CreatedAt:  *githubPullRequest.UpdatedAt,
 		Reviews:    reviews,
 		AuthorName: *githubPullRequest.User.Login,
 		AuthorURL:  *githubPullRequest.User.Login,
