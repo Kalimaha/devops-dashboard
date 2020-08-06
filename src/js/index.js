@@ -29,6 +29,7 @@ const fetchPullRequests = (repositoryName) => {
           $("#pull-requests").append(html)
         }
       }
+      updateCount()
     }
   })
 }
@@ -46,6 +47,12 @@ const data2template = (data, repositoryName) => ({
   authorURL: data.AuthorURL,
   avatarURL: data.AvatarURL,
 })
+
+const updateCount = () => {
+  const count = $(".github-pr").length
+
+  $("#open-prs").html(`Open PRs: ${count}`)
+}
 
 const buildMessage = (reviews) => {
   var approvals           = reviews.filter(r => r.State == "APPROVED")
