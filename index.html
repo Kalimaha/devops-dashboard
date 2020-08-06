@@ -20,14 +20,14 @@
     <script id="pull-request-template" type="template">
       <div class="card">
         <div class="card-header bg-dark">
-          <a class="text-white" href="{{ pullRequestURL }}">#{{ pullRequestId }} - {{ pullRequestName }}</a><span class="float-right text-white">updated {{ dateUpdated }} days ago</span>, <span class="float-right text-white">Opened {{ dateOpened }} days ago</span>
+          <a class="text-white" href="{{ pullRequestURL }}">#{{ pullRequestId }} - {{ pullRequestName }}</a><span class="float-right text-white">updated {{ dateUpdated }} days ago</span>&comma;&nbsp;<span class="float-right text-white">Opened {{ dateOpened }} days ago</span>
         </div>
         <div class="card-body">
           {{{ message }}}
         </div>
         <div class="card-footer">
           <span class="float-left">
-            Authored by <span class="text-success"><a href="{{ authorURL }}">{{ authorName }}</a></span>
+            <img src="{{ avatarURL }}" class="avatar" />Authored by <span class="text-success"><a href="{{ authorURL }}">{{ authorName }}</a></span>
           </span>
           <a class="float-right text-dark" href="{{ repositoryURL }}">
             vinomofo/{{ repositoryName }}

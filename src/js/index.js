@@ -3,6 +3,7 @@ const buildDevOpsDashboard = () => {
     "vinomofo",
     "vino-delivery",
     "vino-delivery-x-ebay",
+    "vino-styleguides",
     "vino-subscription",
     "vino-warehouse",
     "smokescreen"
@@ -43,6 +44,7 @@ const data2template = (data, repositoryName) => ({
   message: buildMessage(data.Reviews),
   authorName: data.AuthorName,
   authorURL: data.AuthorURL,
+  avatarURL: data.AvatarURL,
 })
 
 const buildMessage = (reviews) => {

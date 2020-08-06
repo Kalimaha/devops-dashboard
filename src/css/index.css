@@ -16,3 +16,8 @@ hr {
 .bg-dark {
   background-color: #242A2E!important;
 }
+
+.avatar {
+  height: 1rem;
+  width: 1rem;
+}

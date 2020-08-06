@@ -18,6 +18,7 @@ type PullRequest struct {
 	Reviews    []Review
 	AuthorName string
 	AuthorURL  string
+	AvatarURL  string
 }
 
 type Review struct {
@@ -83,6 +84,7 @@ func buildPullRequest(githubPullRequest github.PullRequest, reviews []Review) Pu
 		Reviews:    reviews,
 		AuthorName: *githubPullRequest.User.Login,
 		AuthorURL:  *githubPullRequest.User.Login,
+		AvatarURL:  *githubPullRequest.User.AvatarURL,
 	}
 }
 
