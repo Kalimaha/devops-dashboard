@@ -28,6 +28,23 @@ type Review struct {
 	SubmittedAt  time.Time
 }
 
+type Commit struct {
+	AuthorLogin string
+	AuthorURL   string
+	Message     string
+}
+
+func CompareCommits(repositoryName string, head string, tail string) (commits []Commit) {
+	client := githubClient()
+	commitsComparison, _, _ := client.Repositories.CompareCommits(context.Background(), "vinomofo", repositoryName, head, tail)
+
+	for _, commit := range commitsComparison.Commits {
+		commits = append(commits, buildCommit(*commit))
+	}
+
+	return commits
+}
+
 func PullRequests(repositoryName string) (pullRequests []PullRequest) {
 	client := githubClient()
 
@@ -94,5 +111,13 @@ func buildReview(githubPullRequestReview github.PullRequestReview) Review {
 		ReviewerName: *githubPullRequestReview.User.Login,
 		State:        *githubPullRequestReview.State,
 		SubmittedAt:  *githubPullRequestReview.SubmittedAt,
+	}
+}
+
+func buildCommit(commit github.RepositoryCommit) Commit {
+	return Commit{
+		Message:     *commit.Commit.Message,
+		AuthorLogin: *commit.Author.Login,
+		AuthorURL:   *commit.Author.HTMLURL,
 	}
 }
