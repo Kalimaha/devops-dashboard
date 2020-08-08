@@ -9,8 +9,10 @@ import (
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	repositoryName, _ := request.QueryStringParameters["repositoryName"]
 
-	pullRequests := PullRequests(repositoryName)
-	body, _ := json.Marshal(pullRequests)
+	releases := ListReleasesFor(repositoryName)
+	commits := CompareCommits(repositoryName, releases[1], releases[0])
+
+	body, _ := json.Marshal(commits)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Body:       string(body),
@@ -19,6 +21,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 			"Accept":       "application/json",
 		},
 	}, nil
+}
 }
 
 func main() {
