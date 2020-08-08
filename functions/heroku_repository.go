@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"net/http"
+	"os"
 	"strings"
 )
 
@@ -18,7 +19,7 @@ func ListReleasesFor(herokuAppName string) (releases []HerokuRelease) {
 	client := &http.Client{}
 
 	req, err_1 := http.NewRequest("GET", url, nil)
-	req.Header.Set("Authorization", "Bearer ")
+	req.Header.Set("Authorization", "Bearer "+os.Getenv("HEROKU_TOKEN"))
 	req.Header.Set("Accept", "application/vnd.heroku+json; version=3")
 	req.Header.Set("Range", "id ..; max=2, order=desc;")
 
@@ -39,7 +40,7 @@ func ListReleasesFor(herokuAppName string) (releases []HerokuRelease) {
 
 	for _, release := range originalReleases {
 		parts := strings.Split(release.Description, " ")
-		release.CommitID = parts[len(parts) - 1]
+		release.CommitID = parts[len(parts)-1]
 		releases = append(releases, release)
 	}
 
