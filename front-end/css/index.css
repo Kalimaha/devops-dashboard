@@ -1,6 +1,6 @@
 body {
   background-color: #000000;
-  background-image: url("../../images/tile2.jpg");
+  background-image: url("../images/tile.jpg");
   background-repeat: repeat-xy;
   background-size: 25rem;
 }

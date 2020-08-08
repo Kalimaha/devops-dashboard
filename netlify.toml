@@ -1,6 +1,6 @@
 [build]
   command = "make netlify"
-  # publish = "dashboard"
+  publish = "front-end"
   functions = "functions"
 
 [build.environment]
