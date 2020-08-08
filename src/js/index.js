@@ -15,7 +15,7 @@ const buildDevOpsDashboard = () => {
 }
 
 const fetchPullRequests = (repositoryName) => {
-  var url = `https://devops-dashboard.netlify.app/.netlify/functions/vm-github-pull-requests?repositoryName=${repositoryName}`
+  var url = `https://devops-dashboard.netlify.app/.netlify/functions/github?repositoryName=${repositoryName}`
   $.ajax({
     url: url
   }).then(function(data) {

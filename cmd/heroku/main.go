@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/Kalimaha/devops-dashboard/pkg/repositories"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -9,8 +10,8 @@ import (
 func herokuHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	repositoryName, _ := request.QueryStringParameters["repositoryName"]
 
-	releases := ListReleasesFor(repositoryName)
-	commits := CompareCommits(repositoryName, releases[1].CommitID, releases[0].CommitID)
+	releases := repositories.ListReleasesFor(repositoryName)
+	commits := repositories.CompareCommits(repositoryName, releases[1].CommitID, releases[0].CommitID)
 
 	body, _ := json.Marshal(commits)
 	return events.APIGatewayProxyResponse{

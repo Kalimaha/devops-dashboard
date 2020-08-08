@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"github.com/Kalimaha/devops-dashboard/pkg/repositories"
 	"github.com/aws/aws-lambda-go/events"
 	"github.com/aws/aws-lambda-go/lambda"
 )
@@ -9,7 +10,7 @@ import (
 func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	repositoryName, _ := request.QueryStringParameters["repositoryName"]
 
-	pullRequests := PullRequests(repositoryName)
+	pullRequests := repositories.PullRequests(repositoryName)
 	body, _ := json.Marshal(pullRequests)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
