@@ -1,6 +1,10 @@
 [build]
-  command = "make build"
+  command = "make netlify"
+  # publish = "dashboard"
   functions = "functions"
 
 [build.environment]
+  GOBIN = "/opt/build/repo/functions"
+
+[template.environment]
   GO_IMPORT_PATH = "github.com/Kalimaha/devops-dashboard"
