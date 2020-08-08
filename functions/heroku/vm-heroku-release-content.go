@@ -6,11 +6,11 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
-func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
+func herokuHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	repositoryName, _ := request.QueryStringParameters["repositoryName"]
 
 	releases := ListReleasesFor(repositoryName)
-	commits := CompareCommits(repositoryName, releases[1], releases[0])
+	commits := CompareCommits(repositoryName, releases[1].CommitID, releases[0].CommitID)
 
 	body, _ := json.Marshal(commits)
 	return events.APIGatewayProxyResponse{
@@ -22,8 +22,7 @@ func handler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyRespo
 		},
 	}, nil
 }
-}
 
 func main() {
-	lambda.Start(handler)
+	lambda.Start(herokuHandler)
 }
