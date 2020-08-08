@@ -36,6 +36,21 @@
       </div>
       <br>
     </script>
+
+    <script id="heroku-release-template" type="template">
+      <div class="card heroku-release">
+        <div class="card-header bg-info">
+          <a class="text-white" href="https://dashboard.heroku.com/apps/{{repositoryName}}">{{repositoryName}}</a>
+        </div>
+        <div class="card-body">
+          <ul>
+          {{ #commits }}
+            <li><a href="{{AuthorURL}}">{{AuthorLogin}}</a>: {{Message}}</li>
+          {{ /commits }}
+          </ul>
+        </div>
+      </div>
+    </script>
   </head>
   <body onload="buildDevOpsDashboard()">
     <div class="container">
@@ -51,13 +66,10 @@
       <section>
         <h1>Operations</h1>
         <hr>
-        <div class="card">
-          <div class="card-header bg-info">
-            <a class="text-white" href="https://dashboard.heroku.com/apps/vinomofo-au">vinomofo-au</a><span class="float-right text-white">21 July 2020</span>
-          </div>
-          <div class="card-body">
-            <img src="./images/heroku_changes.png" width="100%" height="100%">
-          </div>
+        <div id="releases">
+          <center>
+            <img src="./images/loading.gif" alt="releases-loading" id="loading"/>
+          </center>
         </div>
       </section>
       <hr style="padding-bottom: 2rem; margin-top: 2rem;">

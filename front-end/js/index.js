@@ -9,9 +9,35 @@ const buildDevOpsDashboard = () => {
     "smokescreen"
   ]
 
+  const HEROKU_REPOSITORY_NAMES = [
+    "vinomofo",
+    "vino-delivery",
+    "vino-warehouse",
+    "vino-subscription"
+  ]
+
   for (var i = 0; i < REPOSITORY_NAMES.length; i++) {
     fetchPullRequests(REPOSITORY_NAMES[i])
   }
+
+  for (var i = 0; i < HEROKU_REPOSITORY_NAMES.length; i++) {
+    fetchReleases(HEROKU_REPOSITORY_NAMES[i])
+  }
+}
+
+const fetchReleases = (repositoryName) => {
+  var url = `https://devops-dashboard.netlify.app/.netlify/functions/heroku?repositoryName=${repositoryName}`
+  $.ajax({
+    url: url
+  }).then(function(data) {
+    if (data != null) {
+      $("#releases-loading").css("display", "none")
+      var template = $("#heroku-release-template").html()
+      var values = { repositoryName: repositoryName, commits: data }
+      var html = Mustache.render(template, values)
+      $("#releases").append(html)
+    }
+  })
 }
 
 const fetchPullRequests = (repositoryName) => {
