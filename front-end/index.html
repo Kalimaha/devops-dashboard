@@ -43,6 +43,7 @@
           <a class="text-white" href="https://dashboard.heroku.com/apps/{{repositoryName}}">{{repositoryName}}</a>
         </div>
         <div class="card-body">
+          <h3>What went in</h3>
           <ul>
           {{ #commits }}
             <li><a href="{{AuthorURL}}">{{AuthorLogin}}</a>: {{Message}}</li>
@@ -68,7 +69,7 @@
         <hr>
         <div id="releases">
           <center>
-            <img src="./images/loading.gif" alt="releases-loading" id="loading"/>
+            <img src="./images/loading.gif" alt="releases-loading" id="releases-loading"/>
           </center>
         </div>
       </section>

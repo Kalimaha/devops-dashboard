@@ -1,6 +1,8 @@
 package repositories
 
 import (
+	"fmt"
+	"log"
 	"context"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
@@ -35,10 +37,17 @@ type Commit struct {
 
 func CompareCommits(repositoryName string, head string, tail string) (commits []Commit) {
 	client := githubClient()
+	fmt.Printf("COPARE %s AND %s FOR %s\n", head, tail, repositoryName)
+	log.Printf("COPARE %s AND %s FOR %s\n", head, tail, repositoryName)
 	commitsComparison, _, _ := client.Repositories.CompareCommits(context.Background(), "vinomofo", repositoryName, head, tail)
 
 	for _, commit := range commitsComparison.Commits {
-		commits = append(commits, buildCommit(*commit))
+		fmt.Printf("ORIGINAL COMMIT: %+v\n", commit)
+		log.Printf("ORIGINAL COMMIT: %+v\n", commit)
+		builtCommit := buildCommit(*commit)
+		fmt.Printf("BUILT COMMIT: %+v\n", builtCommit)
+		log.Printf("BUILT COMMIT: %+v\n", builtCommit)
+		commits = append(commits, builtCommit)
 	}
 
 	return commits
@@ -106,8 +115,10 @@ func buildReview(githubPullRequestReview github.PullRequestReview) Review {
 func buildCommit(commit github.RepositoryCommit) Commit {
 	return Commit{
 		Message:     message(commit),
-		AuthorLogin: authorLogin(commit),
-		AuthorURL:   authorURL(commit),
+		// AuthorLogin: authorLogin(commit),
+		// AuthorURL:   authorURL(commit),
+		AuthorLogin: "",
+		AuthorURL:   "",
 	}
 }
 
