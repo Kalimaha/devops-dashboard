@@ -1,12 +1,13 @@
 package repositories
 
 import (
-	"fmt"
-	"log"
+	"encoding/json"
+	"io/ioutil"
+	"net/http"
+	"os"
 	"context"
 	"github.com/google/go-github/github"
 	"golang.org/x/oauth2"
-	"os"
 	"time"
 )
 
@@ -29,28 +30,37 @@ type Review struct {
 	SubmittedAt  time.Time
 }
 
-type Commit struct {
-	AuthorLogin string
-	AuthorURL   string
-	Message     string
+type CommitsComparisonWrapper struct {
+	Commits []CommitComparison
 }
 
-func CompareCommits(repositoryName string, head string, tail string) (commits []Commit) {
-	client := githubClient()
-	fmt.Printf("COPARE %s AND %s FOR %s\n", head, tail, repositoryName)
-	log.Printf("COPARE %s AND %s FOR %s\n", head, tail, repositoryName)
-	commitsComparison, _, _ := client.Repositories.CompareCommits(context.Background(), "vinomofo", repositoryName, head, tail)
+type CommitComparison struct {
+	Html_url string
+	Commit Commit
+}
 
-	for _, commit := range commitsComparison.Commits {
-		fmt.Printf("ORIGINAL COMMIT: %+v\n", commit)
-		log.Printf("ORIGINAL COMMIT: %+v\n", commit)
-		builtCommit := buildCommit(*commit)
-		fmt.Printf("BUILT COMMIT: %+v\n", builtCommit)
-		log.Printf("BUILT COMMIT: %+v\n", builtCommit)
-		commits = append(commits, builtCommit)
-	}
+type Commit struct {
+	Message string
+}
 
-	return commits
+func CompareCommits(repositoryName string, head string, tail string) (commits []CommitComparison) {
+	url := "https://api.github.com/repos/vinomofo/" + repositoryName + "/compare/" + head + "..." + tail
+	client := &http.Client{}
+
+	req, _ := http.NewRequest("GET", url, nil)
+	req.Header.Set("Authorization", "token "+os.Getenv("GITHUB_TOKEN"))
+	req.Header.Set("Accept", "application/json")
+	req.Header.Set("Content-Type", "application/json")
+
+	res, _ := client.Do(req)
+
+	defer res.Body.Close()
+	body, _ := ioutil.ReadAll(res.Body)
+
+	var commitsComparisonWrapper CommitsComparisonWrapper
+	json.Unmarshal([]byte(string(body)), &commitsComparisonWrapper)
+
+	return commitsComparisonWrapper.Commits
 }
 
 func PullRequests(repositoryName string) (pullRequests []PullRequest) {
@@ -109,16 +119,6 @@ func buildReview(githubPullRequestReview github.PullRequestReview) Review {
 		ReviewerName: *githubPullRequestReview.User.Login,
 		State:        *githubPullRequestReview.State,
 		SubmittedAt:  *githubPullRequestReview.SubmittedAt,
-	}
-}
-
-func buildCommit(commit github.RepositoryCommit) Commit {
-	return Commit{
-		Message:     message(commit),
-		// AuthorLogin: authorLogin(commit),
-		// AuthorURL:   authorURL(commit),
-		AuthorLogin: "",
-		AuthorURL:   "",
 	}
 }
 

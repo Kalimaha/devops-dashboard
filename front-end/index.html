@@ -40,13 +40,13 @@
     <script id="heroku-release-template" type="template">
       <div class="card heroku-release">
         <div class="card-header bg-info">
-          <a class="text-white" href="https://dashboard.heroku.com/apps/{{repositoryName}}">{{repositoryName}}</a>
+          <a class="text-white" {{repositoryName}}
         </div>
         <div class="card-body">
           <h3>What went in</h3>
           <ul>
           {{ #commits }}
-            <li><a href="{{AuthorURL}}">{{AuthorLogin}}</a>: {{Message}}</li>
+            <li><a href="{{Html_url}}">{{Commit.Message}}</a></li>
           {{ /commits }}
           </ul>
         </div>
