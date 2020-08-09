@@ -33,7 +33,7 @@ const fetchReleases = (repositoryName) => {
     if (data != null) {
       $("#releases-loading").css("display", "none")
       var template = $("#heroku-release-template").html()
-      var values = { repositoryName: repositoryName, commits: data }
+      var values = { repositoryName: repositoryName, pastCommits: data.PastCommits, futureCommits: data.FutureCommits }
       var html = Mustache.render(template, values)
       $("#releases").append(html)
     }

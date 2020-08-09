@@ -7,14 +7,29 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 )
 
+type PastAndFuture struct {
+	PastCommits []repositories.CommitComparison
+	FutureCommits []repositories.CommitComparison
+}
+
 func herokuHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	githubRepositoryName, _ := request.QueryStringParameters["repositoryName"]
 	herokuRepositoryName := herokuRepositoryName(githubRepositoryName)
 	
 	releases := repositories.ListReleasesFor(herokuRepositoryName)
-	commits := repositories.CompareCommits(githubRepositoryName, releases[1].CommitID, releases[0].CommitID)
+	
+	var pastCommits []repositories.CommitComparison
+	pastCommits = repositories.CompareCommits(githubRepositoryName, releases[1].CommitID, releases[0].CommitID)
 
-	body, _ := json.Marshal(commits)
+	var futureCommits []repositories.CommitComparison
+	futureCommits = repositories.CompareCommits(githubRepositoryName, releases[0].CommitID, "HEAD")
+
+	pastAndFuture := PastAndFuture{
+		PastCommits: pastCommits,
+		FutureCommits: futureCommits,
+	}
+
+	body, _ := json.Marshal(pastAndFuture)
 	return events.APIGatewayProxyResponse{
 		StatusCode: 200,
 		Body:       string(body),

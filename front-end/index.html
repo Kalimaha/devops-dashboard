@@ -40,17 +40,24 @@
     <script id="heroku-release-template" type="template">
       <div class="card heroku-release">
         <div class="card-header bg-info">
-          <a class="text-white" {{repositoryName}}
+          <span class="text-white">{{repositoryName}}</span>
         </div>
         <div class="card-body">
-          <h3>What went in</h3>
+          <b>What went in</b>
           <ul>
-          {{ #commits }}
+          {{ #pastCommits }}
             <li><a href="{{Html_url}}">{{Commit.Message}}</a></li>
-          {{ /commits }}
+          {{ /pastCommits }}
+          </ul>
+          <b>What's next?</b>
+          <ul>
+          {{ #futureCommits }}
+            <li><a href="{{Html_url}}">{{Commit.Message}}</a></li>
+          {{ /futureCommits }}
           </ul>
         </div>
       </div>
+      <br>
     </script>
   </head>
   <body onload="buildDevOpsDashboard()">
