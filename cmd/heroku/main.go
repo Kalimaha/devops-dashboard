@@ -8,16 +8,16 @@ import (
 )
 
 type PastAndFuture struct {
-	PastCommits []repositories.CommitComparison
+	PastCommits   []repositories.CommitComparison
 	FutureCommits []repositories.CommitComparison
 }
 
 func herokuHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
 	githubRepositoryName, _ := request.QueryStringParameters["repositoryName"]
 	herokuRepositoryName := herokuRepositoryName(githubRepositoryName)
-	
+
 	releases := repositories.ListReleasesFor(herokuRepositoryName)
-	
+
 	var pastCommits []repositories.CommitComparison
 	pastCommits = repositories.CompareCommits(githubRepositoryName, releases[1].CommitID, releases[0].CommitID)
 
@@ -25,7 +25,7 @@ func herokuHandler(request events.APIGatewayProxyRequest) (events.APIGatewayProx
 	futureCommits = repositories.CompareCommits(githubRepositoryName, releases[0].CommitID, "HEAD")
 
 	pastAndFuture := PastAndFuture{
-		PastCommits: pastCommits,
+		PastCommits:   pastCommits,
 		FutureCommits: futureCommits,
 	}
 

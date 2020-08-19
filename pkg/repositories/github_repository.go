@@ -1,13 +1,13 @@
 package repositories
 
 import (
+	"context"
 	"encoding/json"
+	"github.com/google/go-github/github"
+	"golang.org/x/oauth2"
 	"io/ioutil"
 	"net/http"
 	"os"
-	"context"
-	"github.com/google/go-github/github"
-	"golang.org/x/oauth2"
 	"time"
 )
 
@@ -21,6 +21,7 @@ type PullRequest struct {
 	AuthorName string
 	AuthorURL  string
 	AvatarURL  string
+	Draft      bool
 }
 
 type Review struct {
@@ -36,7 +37,7 @@ type CommitsComparisonWrapper struct {
 
 type CommitComparison struct {
 	Html_url string
-	Commit Commit
+	Commit   Commit
 }
 
 type Commit struct {
@@ -110,6 +111,7 @@ func buildPullRequest(githubPullRequest github.PullRequest, reviews []Review) Pu
 		AuthorName: *githubPullRequest.User.Login,
 		AuthorURL:  *githubPullRequest.User.Login,
 		AvatarURL:  *githubPullRequest.User.AvatarURL,
+		Draft:      *githubPullRequest.Draft,
 	}
 }
 

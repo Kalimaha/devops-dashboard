@@ -11,10 +11,11 @@ The devops dashboard shows:
 
 ## Links
 
-* Dashboard: https://devops-dashboard.netlify.app/?repositoryName=vino-delivery
-* Function `vm-github-pull-requests`
-  * Endpoint: https://devops-dashboard.netlify.app/.netlify/functions/vm-github-pull-requests?repositoryName=vinomofo
-  * Logs: https://app.netlify.com/sites/devops-dashboard/functions/vm-github-pull-requests
+* Dashboard: https://devops-dashboard.netlify.app/
+* Functions
+  * `github`
+    * Endpoint: https://devops-dashboard.netlify.app/.netlify/functions/vm-github-pull-requests?repositoryName=vinomofo
+    * Logs: https://app.netlify.com/sites/devops-dashboard/functions/vm-github-pull-requests
 
 ## Netlify setup
 

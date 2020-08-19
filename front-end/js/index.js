@@ -50,7 +50,7 @@ const fetchPullRequests = (repositoryName) => {
       var template = $("#pull-request-template").html()
       for (var i = 0; i < data.length; i++) {
         var values = data2template(data[i], repositoryName)
-        if (values.dateOpened < 30) {
+        if (values.dateOpened < 30 && !values.draft) {
           var html = Mustache.render(template, values)
           $("#pull-requests").append(html)
         }
@@ -72,6 +72,7 @@ const data2template = (data, repositoryName) => ({
   authorName: data.AuthorName,
   authorURL: data.AuthorURL,
   avatarURL: data.AvatarURL,
+  draft: data.Draft,
 })
 
 const updateCount = () => {
