@@ -6,6 +6,8 @@ const buildDevOpsDashboard = () => {
     "vino-styleguides",
     "vino-subscription",
     "vino-warehouse",
+    "vino-storefront",
+    "vino-toolkit",
     "smokescreen"
   ]
 
